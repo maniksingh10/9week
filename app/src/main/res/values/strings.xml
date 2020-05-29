@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">9week</string>
     <string name="forecast_clicke">Forecast = %1$.2f %2$s</string>
+    <string name="fore_det_title">Forecast Details</string>
 </resources>
