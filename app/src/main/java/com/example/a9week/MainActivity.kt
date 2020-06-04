@@ -1,21 +1,16 @@
 package com.example.a9week
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.a9week.details.DetailsActivity
+import com.example.a9week.forecast.CurrentForecastFragment
+import com.example.a9week.location.LocationFragment
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), AppNavigator {
 
-    private val forecastRepo = ForecastRepo()
     private lateinit var tempSettingsDisplayManager: TempSettingsDisplayManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,35 +19,12 @@ class MainActivity : AppCompatActivity() {
 
         tempSettingsDisplayManager = TempSettingsDisplayManager(this)
 
-        val button_Show_forecast: Button = findViewById(R.id.button1)
-
-        button_Show_forecast.setOnClickListener {
-            forecastRepo.loadForecast("110046")
-
-        }
-
-        val forecastListRecycler: RecyclerView = findViewById(R.id.forecastlistrecycler)
-        forecastListRecycler.layoutManager = LinearLayoutManager(this)
-        val dailyForecastAdapter = DailyForecastAdapter(tempSettingsDisplayManager) {
-            showDetails(it)
-        }
-        forecastListRecycler.adapter = dailyForecastAdapter
-
-        val weeklyObserver = Observer<List<DailyForecast>> { forecastItems ->
-            dailyForecastAdapter.submitList(forecastItems)
-        }
-        forecastRepo.weeklyForecast.observe(this, weeklyObserver)
-    }
-
-
-    private fun showDetails(f: DailyForecast) {
-        val detailsIntent = Intent(this, DetailsActivity::class.java)
-        detailsIntent.putExtra("key_temp", f.currentTemputure)
-        detailsIntent.putExtra("key_description", f.description)
-
-        startActivity(detailsIntent)
+        supportFragmentManager.beginTransaction()
+            .add(R.id.fragment_container, LocationFragment())
+            .commit()
 
     }
+
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val infaltor: MenuInflater = menuInflater
@@ -70,6 +42,18 @@ class MainActivity : AppCompatActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+
+    override fun navigateToCurrentForecast(pin: String) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, CurrentForecastFragment.newInstance("110046"))
+            .commit()
+    }
+
+    override fun navigateToLocationEntry() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, LocationFragment()).commit()
     }
 
 }
