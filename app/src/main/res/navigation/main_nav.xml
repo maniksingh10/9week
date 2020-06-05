@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav"
+    app:startDestination="@id/currentForecastFragment">
+
+    <fragment
+        android:id="@+id/locationFragment"
+        android:name="com.example.a9week.location.LocationFragment"
+        android:label="Location"
+        tools:layout="@layout/fragment_location" />
+    <fragment
+        android:id="@+id/currentForecastFragment"
+        android:name="com.example.a9week.forecast.CurrentForecastFragment"
+        android:label="Current Forecast"
+        tools:layout="@layout/fragment_current_forecast">
+        <action
+            android:id="@+id/action_currentForecastFragment_to_locationFragment"
+            app:destination="@id/locationFragment" />
+        <action
+            android:id="@+id/action_currentForecastFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.example.a9week.details.DetailsFragment"
+        android:label="Details"
+        tools:layout="@layout/fragment_details">
+        <argument
+            android:name="temp"
+            app:argType="float" />
+        <argument
+            android:name="description"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/weeklyForecastFragment"
+        android:name="com.example.a9week.forecast.WeeklyForecastFragment"
+        android:label="WeeklyForecastFragment">
+        <action
+            android:id="@+id/action_weeklyForecastFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+        <action
+            android:id="@+id/action_weeklyForecastFragment_to_locationFragment"
+            app:destination="@id/locationFragment" />
+    </fragment>
+</navigation>

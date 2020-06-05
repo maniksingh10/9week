@@ -13,7 +13,7 @@ import com.example.a9week.*
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
-class CurrentForecastFragment : Fragment() {
+class WeeklyForecastFragment : Fragment() {
 
     private lateinit var tempSettingsDisplayManager: TempSettingsDisplayManager
     private val forecastRepo = ForecastRepo()
@@ -27,7 +27,7 @@ class CurrentForecastFragment : Fragment() {
         val pin = arguments?.getString(KEY_PIN) ?: ""
 
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_current_forecast, container, false)
+        val view = inflater.inflate(R.layout.fragment_weekly_forecast, container, false)
         val locationButton = view.findViewById<FloatingActionButton>(R.id.floatingActionButton)
         locationButton.setOnClickListener {
             showEntry()
@@ -74,9 +74,9 @@ class CurrentForecastFragment : Fragment() {
 
         const val KEY_PIN = "key_pin"
 
-        fun newInstance(pin: String): CurrentForecastFragment {
+        fun newInstance(pin: String): WeeklyForecastFragment {
 
-            val fragment = CurrentForecastFragment()
+            val fragment = WeeklyForecastFragment()
 
             val args = Bundle()
             args.putString(KEY_PIN, "110046")

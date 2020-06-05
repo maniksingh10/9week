@@ -5,11 +5,13 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import com.example.a9week.forecast.CurrentForecastFragment
-import com.example.a9week.location.LocationFragment
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
-class MainActivity : AppCompatActivity(), AppNavigator {
+class MainActivity : AppCompatActivity() {
 
     private lateinit var tempSettingsDisplayManager: TempSettingsDisplayManager
 
@@ -19,9 +21,13 @@ class MainActivity : AppCompatActivity(), AppNavigator {
 
         tempSettingsDisplayManager = TempSettingsDisplayManager(this)
 
-        supportFragmentManager.beginTransaction()
-            .add(R.id.fragment_container, LocationFragment())
-            .commit()
+
+        val navController = findNavController(R.id.nav_host_fragment)
+        val appBarConfiguration = AppBarConfiguration(navController.graph)
+        findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar).setTitle(R.string.app_name)
+        findViewById<BottomNavigationView>(R.id.bottomNavigationView).setupWithNavController(
+            navController
+        )
 
     }
 
@@ -44,16 +50,5 @@ class MainActivity : AppCompatActivity(), AppNavigator {
         }
     }
 
-
-    override fun navigateToCurrentForecast(pin: String) {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, CurrentForecastFragment.newInstance("110046"))
-            .commit()
-    }
-
-    override fun navigateToLocationEntry() {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, LocationFragment()).commit()
-    }
 
 }
